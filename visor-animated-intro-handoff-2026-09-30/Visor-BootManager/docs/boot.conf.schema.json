@@ -1,0 +1,1283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://visor-bootmanager.vercel.app/boot.conf.schema.json",
+  "title": "Visor boot.conf",
+  "description": "Machine-readable description of every key Visor's config parser accepts. Generated from src/config/config.c; the parser is the source of truth.",
+  "x-visor-schema-version": "1.3.3",
+  "x-file-syntax": {
+    "assignment": "key = value, one per line; whitespace around = is ignored",
+    "comment": "# starts a comment. Inside a value it only counts when preceded by whitespace, so title_color=#7AA2F7 is a color, not a comment.",
+    "quoting": "Values containing spaces may be quoted; the surrounding quotes are stripped.",
+    "blocks": "entry { ... } - blank lines and comments inside a braced block are permitted; the block ends at its closing brace. Without braces the first blank line ends the block.",
+    "duplicates": "Repeating a key keeps the last value.",
+    "unknown": "Unknown keys are ignored; an invalid value is logged and the previous setting kept.",
+    "encoding": "UTF-8 and UTF-16, with or without BOM."
+  },
+  "$defs": {
+    "bool": {
+      "description": "Boolean. Accepts 1/0, true/false, yes/no (first character is significant).",
+      "type": [
+        "boolean",
+        "string",
+        "integer"
+      ],
+      "pattern": "^([01]|[tTyYfFnN].*)$"
+    },
+    "hexColor": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "accentRole": {
+      "description": "A Material You palette role derived from the wallpaper. Hyphens are accepted in place of underscores.",
+      "type": "string",
+      "enum": [
+        "primary",
+        "on_primary",
+        "primary_container",
+        "on_primary_container",
+        "secondary",
+        "tertiary",
+        "tertiary_container",
+        "surface",
+        "surface_container",
+        "on_surface",
+        "on_surface_variant",
+        "outline",
+        "clock"
+      ]
+    },
+    "colorSpec": {
+      "description": "The unified color grammar: an explicit #RRGGBB, an accent role name, 1/on for the element's default accent role, or 0/off to keep the plain color. An explicit color always wins over the derived palette.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/hexColor"
+        },
+        {
+          "$ref": "#/$defs/accentRole"
+        },
+        {
+          "$ref": "#/$defs/bool"
+        }
+      ]
+    },
+    "path": {
+      "description": "Backslash-separated path, relative to the root of the filesystem holding the file (e.g. \\EFI\\visor\\icons\\arch.png).",
+      "type": "string"
+    },
+    "pixels": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "accent": {
+      "x-feature": "accent",
+      "x-group": "accent",
+      "description": "Derive a Material You palette from the wallpaper. May also carry a role or color as the default for every element with no key of its own.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "accent_icons": {
+      "x-feature": "accent",
+      "x-group": "accent",
+      "description": "Tint generic icons from the palette.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "accent_logo": {
+      "x-feature": "accent",
+      "x-group": "logo",
+      "x-aliases": [
+        "logo_color",
+        "accent_logo_color"
+      ],
+      "description": "Tint the logo from the wallpaper palette.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "accent_logo_color": {
+      "x-feature": "accent",
+      "x-group": "logo",
+      "$ref": "#/$defs/colorSpec",
+      "x-alias-of": "accent_logo",
+      "description": "Alias for accent_logo."
+    },
+    "accent_os_icons": {
+      "x-feature": "accent",
+      "x-group": "accent",
+      "description": "Also flatten per-OS icons to the palette, discarding brand colors.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "accent_text": {
+      "x-feature": "accent",
+      "x-group": "accent",
+      "description": "Tint menu text from the palette.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "accent_underline": {
+      "x-feature": "accent",
+      "x-group": "accent",
+      "description": "Tint the selection underline from the palette.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "accent_variant": {
+      "x-feature": "accent",
+      "x-group": "accent",
+      "description": "Palette scheme variant. Matched on the first character only.",
+      "type": "string",
+      "enum": [
+        "tonal",
+        "neutral",
+        "content",
+        "fidelity",
+        "vibrant",
+        "expressive",
+        "monochrome"
+      ],
+      "default": "tonal"
+    },
+    "clock": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Show a real-time clock in the top-right corner.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "show_clock": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "$ref": "#/$defs/colorSpec",
+      "x-alias-of": "clock",
+      "description": "Alias for clock."
+    },
+    "accent_clock": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Tint the clock from the palette.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "clock_color": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "$ref": "#/$defs/colorSpec",
+      "description": "Explicit color for the clock text."
+    },
+    "clock_size": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "x-aliases": [
+        "clock_px"
+      ],
+      "$ref": "#/$defs/pixels",
+      "description": "Clock text size in pixels. Falls back to the title size."
+    },
+    "clock_px": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "$ref": "#/$defs/pixels",
+      "x-alias-of": "clock_size",
+      "description": "Alias for clock_size."
+    },
+    "clock_format": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Clock hour format: 12h or 24h.",
+      "type": "string",
+      "enum": [
+        "12h",
+        "24h",
+        "12",
+        "24"
+      ],
+      "default": "24h"
+    },
+    "clock_seconds": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Show seconds in the clock.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "clock_position": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "x-aliases": [
+        "clock_pos"
+      ],
+      "description": "Clock position on screen. Accepts top/bottom plus left/right/center, or center/middle.",
+      "type": "string",
+      "enum": [
+        "topright",
+        "topleft",
+        "topcenter",
+        "topcentre",
+        "top",
+        "bottomright",
+        "bottomleft",
+        "bottomcenter",
+        "bottomcentre",
+        "bottom",
+        "center",
+        "centre",
+        "middle"
+      ],
+      "default": "topright"
+    },
+    "clock_pos": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "type": "string",
+      "enum": [
+        "topright",
+        "topleft",
+        "topcenter",
+        "bottomright",
+        "bottomleft",
+        "bottomcenter",
+        "center"
+      ],
+      "x-alias-of": "clock_position",
+      "description": "Alias for clock_position."
+    },
+    "clock_date": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Show the date below the clock. Accepts 1/0, true/false, long, iso, dmy or mdy (aliases: full, ymd, eu, us, on, off).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/bool"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "long",
+            "full",
+            "iso",
+            "ymd",
+            "dmy",
+            "eu",
+            "mdy",
+            "us",
+            "on",
+            "off"
+          ]
+        }
+      ],
+      "default": false
+    },
+    "clock_date_format": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Date format when the clock date is shown.",
+      "type": "string",
+      "enum": [
+        "long",
+        "full",
+        "iso",
+        "ymd",
+        "dmy",
+        "eu",
+        "mdy",
+        "us"
+      ],
+      "default": "long"
+    },
+    "clock_blur": {
+      "x-feature": [
+        "clock",
+        "blur"
+      ],
+      "x-group": "clock",
+      "description": "Draw a frosted glass panel behind the clock text. Requires a background image; with none it falls back to a translucent tint.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "clock_shadow": {
+      "x-feature": "clock",
+      "x-group": "clock",
+      "description": "Draw a subtle drop shadow behind the clock text for contrast.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "screensaver": {
+      "x-feature": "screensaver",
+      "x-group": "screensaver",
+      "description": "Enable the idle screensaver. A bare number means 'on, with this idle delay in seconds' (e.g. screensaver=60 enables with a 60-second delay).",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/bool"
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ],
+      "default": false
+    },
+    "screensaver_delay": {
+      "x-feature": "screensaver",
+      "x-group": "screensaver",
+      "x-aliases": [
+        "screensaver_timeout"
+      ],
+      "description": "Seconds of idle time before the UI fades out, leaving only the background (and the clock if enabled).",
+      "type": "integer",
+      "minimum": 0,
+      "default": 60
+    },
+    "screensaver_timeout": {
+      "x-feature": "screensaver",
+      "x-group": "screensaver",
+      "type": "integer",
+      "minimum": 0,
+      "x-alias-of": "screensaver_delay",
+      "description": "Alias for screensaver_delay."
+    },
+    "screensaver_blank": {
+      "x-feature": "screensaver",
+      "x-group": "screensaver",
+      "x-aliases": [
+        "screensaver_blank_delay"
+      ],
+      "description": "Seconds of idle time before the screen blanks to black. 0 disables the blank stage (dim only). The blank turns back on at the first key or pointer activity.",
+      "type": "integer",
+      "minimum": 0,
+      "default": 600
+    },
+    "screensaver_blank_delay": {
+      "x-feature": "screensaver",
+      "x-group": "screensaver",
+      "type": "integer",
+      "minimum": 0,
+      "x-alias-of": "screensaver_blank",
+      "description": "Alias for screensaver_blank."
+    },
+    "screensaver_clock": {
+      "x-feature": "screensaver",
+      "x-group": "screensaver",
+      "description": "Keep the clock visible while the screensaver is dimmed (ignored once the screen is blanked).",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "record_seconds": {
+      "x-feature": "capture",
+      "x-group": "capture",
+      "description": "How long F10 records the screen, in seconds. Recordings are captured at 20 fps, scaled to at most 960 px wide, and cut short if they would exceed the encoder's 20 MiB budget (what was captured is still saved).",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12,
+      "default": 3
+    },
+    "tpm": {
+      "x-feature": "tpm",
+      "x-group": "tpm",
+      "x-aliases": [
+        "measure"
+      ],
+      "description": "Enable TPM2 measured boot. Measures the config file into PCR 5 and the booted kernel command line into PCR 12, and publishes the active PCR banks to the Boot Loader Interface.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "measure": {
+      "x-feature": "tpm",
+      "x-group": "tpm",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "tpm",
+      "description": "Alias for tpm."
+    },
+    "tpm_pcr_config": {
+      "x-feature": "tpm",
+      "x-group": "tpm",
+      "description": "PCR index for the config file measurement (0-23).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 23,
+      "default": 5
+    },
+    "tpm_pcr_cmdline": {
+      "x-feature": "tpm",
+      "x-group": "tpm",
+      "description": "PCR index for the kernel command line measurement (0-23).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 23,
+      "default": 12
+    },
+    "loader_vars": {
+      "x-feature": "loader_iface",
+      "x-group": "loader",
+      "x-aliases": [
+        "loader_interface"
+      ],
+      "description": "Export and honor the systemd Boot Loader Interface EFI variables (LoaderInfo, LoaderEntries, LoaderEntrySelected, LoaderDevicePartUUID, LoaderFirmwareInfo/Type, LoaderTimeInitUSec and related timeout and OneShot overrides).",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "loader_interface": {
+      "x-feature": "loader_iface",
+      "x-group": "loader",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "loader_vars",
+      "description": "Alias for loader_vars."
+    },
+    "anim_speed": {
+      "x-feature": "anim",
+      "x-group": "animation",
+      "description": "Selection animation speed, 1 (slow) to 10 (fast). Ignored when animation=0.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 8
+    },
+    "animation": {
+      "x-feature": "anim",
+      "x-group": "animation",
+      "description": "Enable menu animations.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "autoboot": {
+      "x-feature": "core",
+      "x-group": "boot",
+      "description": "Skip the menu and boot immediately (the single entry, or the remembered/default one). Hold any key during power-on to force the menu.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "intro_image": {
+      "x-feature": "gui",
+      "type": "string",
+      "x-group": "background",
+      "x-aliases": ["intro_media"],
+      "description": "Intro media path: PNG/BMP/GIF/MJPEG MP4/MOV/M4V/VBG. Alias intro_media. Requires matching decoder features. Missing/unsupported media skips safely. Any key skips and cancels the menu countdown."
+    },
+    "intro_duration": {
+      "x-feature": "gui",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5000,
+      "default": 2000,
+      "x-group": "background",
+      "description": "Automatic intro display deadline in milliseconds, excluding loading. Zero disables the intro even in manual mode. Values above 5000 are clamped. animation=0 suppresses fade and playback."
+    },
+    "intro_loop": {
+      "x-feature": "gui",
+      "x-group": "background",
+      "$ref": "#/$defs/bool",
+      "default": false,
+      "description": "Repeat the intro clip regardless of its embedded loop count. Auto mode still respects intro_duration; manual mode loops until a key."
+    },
+    "intro_auto_continue": {
+      "x-feature": "gui",
+      "x-group": "background",
+      "$ref": "#/$defs/bool",
+      "default": true,
+      "description": "Perform intro_action at the deadline or end of a non-looping clip. When false, wait for a key (hold the final frame if not looping). A key always opens the menu."
+    },
+    "intro_action": {
+      "x-feature": "gui",
+      "x-group": "background",
+      "type": "string",
+      "enum": ["menu", "boot"],
+      "default": "menu",
+      "description": "After successful automatic completion, show the menu or boot the existing preselected entry. A key, decode failure or missing media never triggers this direct boot action. Existing autoboot=1 or timeout=0 bypass the intro."
+    },
+    "background": {
+      "x-feature": "gui",
+      "x-group": "background",
+      "description": "Path to a full-screen background image (PNG, BMP, GIF or MP4). Animated GIFs and MJPEG MP4s play in a loop. Omit for a solid backdrop.",
+      "$ref": "#/$defs/path"
+    },
+    "background_color": {
+      "x-feature": "gui",
+      "x-group": "colors",
+      "$ref": "#/$defs/colorSpec",
+      "x-alias-of": "bg_color",
+      "description": "Alias for bg_color."
+    },
+    "bg_color": {
+      "x-feature": "gui",
+      "x-group": "colors",
+      "x-aliases": [
+        "background_color"
+      ],
+      "description": "Solid backdrop color, used when no background image is set or the image cannot be loaded.",
+      "$ref": "#/$defs/colorSpec",
+      "default": "#1A1A2E"
+    },
+    "blur": {
+      "x-feature": "blur",
+      "x-group": "background",
+      "description": "Selection glass mode: 0 is a flat card, 1 is frosted glass (blur plus tint), 'clear' is blur with no tint. Matched on the first character, so any c-word means clear.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/bool"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "clear"
+          ]
+        }
+      ],
+      "default": 0
+    },
+    "blur_color": {
+      "x-feature": "blur",
+      "x-group": "background",
+      "description": "Tint applied over the blurred backdrop.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "blur_title": {
+      "x-feature": "blur",
+      "x-group": "background",
+      "description": "Also blur behind the title.",
+      "$ref": "#/$defs/bool"
+    },
+    "boot_log": {
+      "x-feature": "core",
+      "x-group": "diagnostics",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "log",
+      "description": "Alias for log."
+    },
+    "box_radius": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "x-aliases": [
+        "corner_radius"
+      ],
+      "description": "Corner radius in pixels of the selection highlight / frost box. 0 uses the built-in default.",
+      "$ref": "#/$defs/pixels"
+    },
+    "center_info": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "x-aliases": [
+        "centre_info"
+      ],
+      "description": "Show details for the selected entry near the bottom of the screen.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "centre_info": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "center_info",
+      "description": "Alias for center_info."
+    },
+    "cmdline": {
+      "x-feature": "core",
+      "x-group": "boot",
+      "x-aliases": [
+        "options"
+      ],
+      "description": "Global default kernel command line, applied to entries that set none of their own. Per-entry cmdline always wins.",
+      "type": "string"
+    },
+    "corner_radius": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "$ref": "#/$defs/pixels",
+      "x-alias-of": "box_radius",
+      "description": "Alias for box_radius."
+    },
+    "deep_scan": {
+      "x-feature": "discover",
+      "x-group": "discovery",
+      "x-aliases": [
+        "deepscan"
+      ],
+      "x-inverse-of": "scan",
+      "description": "Inverse spelling of scan=deep.",
+      "$ref": "#/$defs/bool"
+    },
+    "deepscan": {
+      "x-feature": "discover",
+      "x-group": "discovery",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "deep_scan",
+      "description": "Alias for deep_scan."
+    },
+    "default": {
+      "x-feature": "discover",
+      "x-group": "boot",
+      "description": "Index of the default entry, 0-based, in the order entries appear in the file.",
+      "type": "integer",
+      "minimum": 0,
+      "default": 0
+    },
+    "editor": {
+      "x-feature": "editor",
+      "x-group": "boot",
+      "description": "Allow one-shot kernel cmdline editing at the menu with 'e'.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "entries_per_page": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "description": "Entries per page. When more exist, chevrons appear and paging cross-fades at anim_speed.",
+      "type": "integer",
+      "minimum": 1,
+      "default": 3
+    },
+    "fade_speed": {
+      "x-feature": "fade",
+      "x-group": "animation",
+      "description": "Full-screen fade speed for menu fade-in and boot/power fade-out, 1 (slow) to 10 (fast). Ignored when animation=0.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 10
+    },
+    "file_log": {
+      "x-feature": "core",
+      "x-group": "diagnostics",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "log",
+      "description": "Alias for log."
+    },
+    "firmware_color": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Firmware-setup icon/label color.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "firmware_icon": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Path to a custom firmware-setup icon.",
+      "$ref": "#/$defs/path"
+    },
+    "font": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "description": "Text font. Only the bundled 'jetbrains' is currently available.",
+      "type": "string",
+      "enum": [
+        "jetbrains",
+        ""
+      ]
+    },
+    "highlight_color": {
+      "x-feature": "gui",
+      "x-group": "colors",
+      "description": "Accent color of the selection highlight and underline.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "hotplug": {
+      "x-feature": "hotplug",
+      "x-group": "discovery",
+      "description": "While the menu is up, watch for volumes that appear and pop matching entries in.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "hotplug_scan_existing": {
+      "x-feature": "hotplug",
+      "x-group": "discovery",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "scan_existing",
+      "description": "Alias for scan_existing."
+    },
+    "icon_size": {
+      "x-feature": "gui",
+      "x-group": "sizes",
+      "description": "Icon edge length in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "icon_spacing": {
+      "x-feature": "gui",
+      "x-group": "sizes",
+      "description": "Horizontal gap between icons in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "icon_y": {
+      "x-feature": "gui",
+      "x-group": "sizes",
+      "description": "Vertical position of the icon row in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "info_color": {
+      "x-feature": "gui",
+      "x-group": "colors",
+      "description": "Color of the secondary info line (path, deployment and snapshot details).",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "log": {
+      "x-feature": "core",
+      "x-group": "diagnostics",
+      "x-aliases": [
+        "boot_log",
+        "file_log"
+      ],
+      "description": "Write diagnostics to \\EFI\\visor\\boot.log. Read before any log write, so log=0 is honored even when the ESP write path is broken.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "logo": {
+      "x-feature": "gui",
+      "x-group": "logo",
+      "description": "Path to the header logo image (PNG or BMP). Defaults to the bundled \\EFI\\visor\\logo.png.",
+      "$ref": "#/$defs/path"
+    },
+    "logo_color": {
+      "x-feature": "accent",
+      "x-group": "logo",
+      "$ref": "#/$defs/colorSpec",
+      "x-alias-of": "accent_logo",
+      "description": "Alias for accent_logo."
+    },
+    "logo_gap": {
+      "x-feature": "gui",
+      "x-group": "logo",
+      "description": "Gap in pixels between the logo and the title.",
+      "$ref": "#/$defs/pixels"
+    },
+    "logo_mode": {
+      "x-feature": "gui",
+      "x-group": "logo",
+      "description": "Placement: beside the title, on its own, above the title, or hidden.",
+      "type": "string",
+      "enum": [
+        "title",
+        "beside",
+        "only",
+        "standalone",
+        "above",
+        "stacked",
+        "none",
+        "off"
+      ],
+      "default": "title"
+    },
+    "logo_size": {
+      "x-feature": "gui",
+      "x-group": "logo",
+      "description": "Logo edge length in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "menu_sound": {
+      "x-feature": "audio",
+      "x-group": "sound",
+      "description": "WAV played once at startup when no Return by Death event fires. On by default, but plays only when a path is set; 'off', '0', 'n' or 'f' silences it. Audio must be 16-bit PCM, at most 4 seconds; it is upsampled and played through the HDA controller.",
+      "$ref": "#/$defs/path"
+    },
+    "mouse": {
+      "x-feature": "pointer",
+      "x-group": "appearance",
+      "x-aliases": [
+        "pointer"
+      ],
+      "description": "Pointer support: a cursor appears when a device is present, and a single click boots an entry or triggers a power action.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "mouse_speed": {
+      "x-feature": "pointer",
+      "x-group": "appearance",
+      "x-aliases": [
+        "pointer_speed"
+      ],
+      "description": "Relative pointer movement multiplier. Absolute touchscreens are mapped directly and ignore this.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 4
+    },
+    "name_color": {
+      "x-feature": "gui",
+      "x-group": "colors",
+      "description": "Default color for every entry name. Per-entry color= overrides it.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "name_size": {
+      "x-feature": "gui",
+      "x-group": "sizes",
+      "description": "Entry name text height in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "names": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "show_names",
+      "description": "Alias for show_names."
+    },
+    "no_log": {
+      "x-feature": "core",
+      "x-group": "diagnostics",
+      "x-inverse-of": "log",
+      "description": "Inverse spelling of log=0.",
+      "$ref": "#/$defs/bool"
+    },
+    "options": {
+      "x-feature": "core",
+      "x-group": "boot",
+      "type": "string",
+      "x-alias-of": "cmdline",
+      "description": "Alias for cmdline."
+    },
+    "pointer": {
+      "x-feature": "pointer",
+      "x-group": "appearance",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "mouse",
+      "description": "Alias for mouse."
+    },
+    "pointer_speed": {
+      "x-feature": "pointer",
+      "x-group": "appearance",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "x-alias-of": "mouse_speed",
+      "description": "Alias for mouse_speed."
+    },
+    "power_icon_size": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Power icon edge length in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "power_icons": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Show the power action icons.",
+      "$ref": "#/$defs/bool"
+    },
+    "power_position": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Corner holding the shutdown / reboot / firmware icons.",
+      "type": "string",
+      "enum": [
+        "topright",
+        "topleft",
+        "bottomleft",
+        "bottomright"
+      ],
+      "default": "bottomright"
+    },
+    "quick_scan": {
+      "x-feature": "discover",
+      "x-group": "discovery",
+      "x-aliases": [
+        "quickscan"
+      ],
+      "x-inverse-of": "scan",
+      "description": "Inverse spelling of scan=quick.",
+      "$ref": "#/$defs/bool"
+    },
+    "quickscan": {
+      "x-feature": "discover",
+      "x-group": "discovery",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "quick_scan",
+      "description": "Alias for quick_scan."
+    },
+    "quiet": {
+      "x-feature": "core",
+      "x-group": "boot",
+      "description": "Suppress boot-progress text; hand off to the OS on a black screen.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "reboot_color": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Reboot icon/label color.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "reboot_icon": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Path to a custom reboot icon.",
+      "$ref": "#/$defs/path"
+    },
+    "recovery": {
+      "x-feature": "recovery",
+      "x-group": "discovery",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "recovery_entries",
+      "description": "Alias for recovery_entries."
+    },
+    "recovery_entries": {
+      "x-feature": "recovery",
+      "x-group": "discovery",
+      "x-aliases": [
+        "recovery"
+      ],
+      "description": "Auto-generate a '<name> (recovery)' entry per Linux entry, appending systemd.unit=rescue.target nomodeset.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "remember": {
+      "x-feature": "discover",
+      "x-group": "boot",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "remember_last",
+      "description": "Alias for remember_last."
+    },
+    "remember_last": {
+      "x-feature": "discover",
+      "x-group": "boot",
+      "x-aliases": [
+        "remember"
+      ],
+      "description": "Preselect the last-booted entry next time, persisted in NVRAM. Overrides 'default'.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "restore_fallback": {
+      "x-feature": "discover",
+      "x-group": "boot",
+      "description": "Re-copy the running Visor binary to the firmware's default boot path (\\EFI\\BOOT\\BOOTX64.EFI) at startup, restoring a fallback that another OS may have overwritten.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "selfheal": {
+      "x-feature": "selfheal",
+      "x-group": "boot",
+      "description": "Master switch for the boot-time NVRAM and fallback self-heal pass. 0 = disabled; 1 = run at every startup (default).",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "selfheal_order": {
+      "x-feature": "selfheal",
+      "x-group": "boot",
+      "x-aliases": [
+        "boot_order"
+      ],
+      "description": "Repair policy for the NVRAM Boot entry and BootOrder list. 'ensure' (default) recreates a missing entry and appends it to BootOrder; 'first' additionally keeps Visor at the head of BootOrder on a normal boot-manager boot; 'off' leaves the NVRAM untouched. Any BootOrder rewrite arms a short cooldown (a few boot periods, tracked via an ESP stamp file) so firmware/OS reorder wars cannot wear out NVRAM.",
+      "type": "string",
+      "enum": [
+        "off",
+        "ensure",
+        "first"
+      ],
+      "default": "ensure"
+    },
+    "resolution": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "description": "'native' keeps the firmware's current mode, 'max'/'highest' picks the largest offered, or an exact WxH such as 1920x1080.",
+      "type": "string",
+      "pattern": "^(native|max|highest|[0-9]+[xX*][0-9]+)$",
+      "default": "native"
+    },
+    "scan": {
+      "x-feature": "discover",
+      "x-group": "discovery",
+      "x-aliases": [
+        "scan_mode"
+      ],
+      "description": "Auto-detection scope. 'deep' opens every filesystem the firmware exposes; 'quick' looks only at the boot volume, ESPs and XBOOTLDR partitions, widening to a deep scan if it finds nothing.",
+      "type": "string",
+      "enum": [
+        "deep",
+        "quick"
+      ],
+      "default": "deep"
+    },
+    "scan_existing": {
+      "x-feature": "hotplug",
+      "x-group": "discovery",
+      "x-aliases": [
+        "hotplug_scan_existing"
+      ],
+      "description": "Also sweep media already plugged in when Visor started. Off by default; only happens automatically when Visor auto-detected the entries.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "scan_mode": {
+      "x-feature": "discover",
+      "x-group": "discovery",
+      "type": "string",
+      "enum": [
+        "deep",
+        "quick"
+      ],
+      "x-alias-of": "scan",
+      "description": "Alias for scan."
+    },
+    "show_names": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "x-aliases": [
+        "names"
+      ],
+      "description": "Show the name label under each icon. Auto-detected menus default to icons-only unless this is set.",
+      "$ref": "#/$defs/bool",
+      "default": true
+    },
+    "shutdown_color": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Shutdown icon/label color.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "shutdown_icon": {
+      "x-feature": "gui",
+      "x-group": "power",
+      "description": "Path to a custom shutdown icon.",
+      "$ref": "#/$defs/path"
+    },
+    "snapshots": {
+      "x-feature": "snapshots",
+      "x-group": "discovery",
+      "description": "Snapshot booting. 1 = load snapshots.conf (falling back to snapshot.conf) then auto-detect btrfs snapshots; 'manifest' = manifest file only; 0 = off.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/bool"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "manifest"
+          ]
+        }
+      ],
+      "default": true
+    },
+    "text_menu": {
+      "x-feature": "core",
+      "x-group": "appearance",
+      "x-aliases": [
+        "text_mode"
+      ],
+      "description": "Use the plain text-console menu. Also the automatic fallback when no Graphics Output Protocol is found.",
+      "$ref": "#/$defs/bool",
+      "default": false
+    },
+    "text_mode": {
+      "x-feature": "core",
+      "x-group": "appearance",
+      "$ref": "#/$defs/bool",
+      "x-alias-of": "text_menu",
+      "description": "Alias for text_menu."
+    },
+    "theme": {
+      "x-feature": "gui",
+      "x-group": "appearance",
+      "description": "Name of a .conf theme in \\EFI\\visor\\themes\\ whose UI keys override this file. Also accepts 'random' or 'cycle'.",
+      "type": "string"
+    },
+    "timeout": {
+      "x-feature": "core",
+      "x-group": "boot",
+      "description": "Seconds before the default entry auto-boots. -1 waits forever; 0 boots the default instantly with no menu.",
+      "type": "integer",
+      "minimum": -1,
+      "default": 5
+    },
+    "title": {
+      "x-feature": "core",
+      "x-group": "appearance",
+      "description": "Menu title. Empty or absent uses 'Visor'; 'none' removes it; anything else is shown verbatim.",
+      "type": "string"
+    },
+    "title_color": {
+      "x-feature": "gui",
+      "x-group": "colors",
+      "description": "Title text color.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "title_size": {
+      "x-feature": "gui",
+      "x-group": "sizes",
+      "description": "Title text height in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "underline_color": {
+      "x-feature": "gui",
+      "x-group": "underline",
+      "description": "Color of the selection underline.",
+      "$ref": "#/$defs/colorSpec"
+    },
+    "underline_length": {
+      "x-feature": "gui",
+      "x-group": "underline",
+      "description": "Underline length in pixels. 0 follows the entry width.",
+      "$ref": "#/$defs/pixels"
+    },
+    "underline_thickness": {
+      "x-feature": "gui",
+      "x-group": "underline",
+      "description": "Underline thickness in pixels.",
+      "$ref": "#/$defs/pixels"
+    },
+    "entry": {
+      "x-feature": "core",
+      "x-group": "entries",
+      "description": "A boot entry block. Repeat once per entry; brace it as entry { ... }.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "x-feature": "core",
+          "description": "Label shown in the menu.",
+          "type": "string"
+        },
+        "icon": {
+          "x-feature": "gui",
+          "description": "Path to the entry's icon.",
+          "$ref": "#/$defs/path"
+        },
+        "icon_size": {
+          "x-feature": "gui",
+          "description": "Per-entry icon edge length in pixels.",
+          "$ref": "#/$defs/pixels"
+        },
+        "kernel": {
+          "x-feature": "core",
+          "description": "Path to the kernel, UKI, or EFI binary to boot.",
+          "$ref": "#/$defs/path"
+        },
+        "initrd": {
+          "x-feature": "core",
+          "description": "Path to the initramfs.",
+          "$ref": "#/$defs/path"
+        },
+        "cmdline": {
+          "x-feature": "core",
+          "x-aliases": [
+            "options"
+          ],
+          "description": "Kernel command line for this entry. Overrides the global cmdline.",
+          "type": "string"
+        },
+        "uuid": {
+          "x-feature": "core",
+          "description": "Partition UUID pinning where this entry's files load from. The all-volume search is only a logged fallback.",
+          "type": "string"
+        },
+        "color": {
+          "x-feature": "gui",
+          "description": "Color of this entry's name. Accepts an accent role as well as #RRGGBB.",
+          "$ref": "#/$defs/colorSpec"
+        },
+        "sha256": {
+          "x-feature": "verify",
+          "description": "Pin the image to this SHA-256. A pinned entry boots the verified buffer directly rather than letting the firmware re-read the file.",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "encrypted": {
+          "x-feature": "crypto",
+          "description": "This entry's kernel and initrd are VISORENC containers.",
+          "$ref": "#/$defs/bool"
+        },
+        "kernel_encrypted": {
+          "x-feature": "crypto",
+          "description": "Only the kernel is a VISORENC container.",
+          "$ref": "#/$defs/bool"
+        },
+        "initrd_encrypted": {
+          "x-feature": "crypto",
+          "description": "Only the initrd is a VISORENC container.",
+          "$ref": "#/$defs/bool"
+        },
+        "luks": {
+          "x-feature": "luks",
+          "description": "Prompt for a LUKS passphrase at boot and hand it to the initramfs as a keyfile. Visor never stores the passphrase; there is no key for supplying one in the file.",
+          "$ref": "#/$defs/bool",
+          "x-aliases": [
+            "luks_password"
+          ]
+        },
+        "luks_confirm": {
+          "x-feature": "luks",
+          "description": "Ask for the passphrase twice and reprompt on mismatch.",
+          "$ref": "#/$defs/bool",
+          "x-aliases": [
+            "luks_verify"
+          ]
+        },
+        "luks_verify": {
+          "x-feature": "luks",
+          "description": "Verify the passphrase before booting.",
+          "$ref": "#/$defs/bool"
+        },
+        "luks_verbose": {
+          "x-feature": "luks",
+          "x-aliases": [
+            "luks_show_prompt"
+          ],
+          "description": "Drop 'quiet splash' so the initramfs retry prompt is visible.",
+          "$ref": "#/$defs/bool"
+        },
+        "luks_key_path": {
+          "x-feature": "luks",
+          "description": "Path inside the initramfs cpio where the keyfile is placed.",
+          "type": "string",
+          "default": "/crypto_keyfile.bin"
+        },
+        "luks_cmdline": {
+          "x-feature": "luks",
+          "x-aliases": [
+            "luks_options",
+            "luks_options_append"
+          ],
+          "description": "Extra kernel parameters appended when LUKS is in use.",
+          "type": "string"
+        },
+        "luks_preset": {
+          "x-feature": "luks",
+          "x-aliases": [
+            "luks_initramfs"
+          ],
+          "description": "Initramfs flavour, selecting the keyfile convention: mkinitcpio/arch or dracut/systemd.",
+          "type": "string",
+          "enum": [
+            "mkinitcpio",
+            "arch",
+            "dracut",
+            "systemd"
+          ]
+        },
+        "options": {
+          "x-feature": "core",
+          "type": "string",
+          "x-alias-of": "cmdline",
+          "description": "Alias for cmdline."
+        },
+        "luks_password": {
+          "x-feature": "luks",
+          "$ref": "#/$defs/bool",
+          "x-alias-of": "luks",
+          "description": "Alias for luks."
+        },
+        "luks_show_prompt": {
+          "x-feature": "luks",
+          "$ref": "#/$defs/bool",
+          "x-alias-of": "luks_verbose",
+          "description": "Alias for luks_verbose."
+        },
+        "luks_options": {
+          "x-feature": "luks",
+          "type": "string",
+          "x-alias-of": "luks_cmdline",
+          "description": "Alias for luks_cmdline."
+        },
+        "luks_options_append": {
+          "x-feature": "luks",
+          "type": "string",
+          "x-alias-of": "luks_cmdline",
+          "description": "Alias for luks_cmdline."
+        },
+        "luks_initramfs": {
+          "x-feature": "luks",
+          "type": "string",
+          "enum": [
+            "mkinitcpio",
+            "arch",
+            "dracut",
+            "systemd"
+          ],
+          "x-alias-of": "luks_preset",
+          "description": "Alias for luks_preset."
+        }
+      }
+    }
+  }
+}

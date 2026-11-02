@@ -1,0 +1,12 @@
+gif-loop: captured 12 frames; inspect images for behavior (not automated pass assertions).
+gif-once: captured 12 frames; inspect images for behavior (not automated pass assertions).
+manual-loop: captured 12 frames; inspect images for behavior (not automated pass assertions).
+manual-once: captured 12 frames; inspect images for behavior (not automated pass assertions).
+skip: captured 12 frames; inspect images for behavior (not automated pass assertions).
+missing: captured 12 frames; inspect images for behavior (not automated pass assertions).
+disabled: captured 12 frames; inspect images for behavior (not automated pass assertions).
+still: captured 12 frames; inspect images for behavior (not automated pass assertions).
+mp4: captured 12 frames; inspect images for behavior (not automated pass assertions).
+boot: captured 12 frames; inspect images for behavior (not automated pass assertions).
+boot-skip: captured 12 frames; inspect images for behavior (not automated pass assertions).
+boot-missing: captured 12 frames; inspect images for behavior (not automated pass assertions).

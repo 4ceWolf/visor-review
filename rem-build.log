@@ -1,0 +1,333 @@
+profile full [x86_64]: 28 features on, 0 off
+gen: build/x86_64/gen/visor_features.h
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/arch/arch_x86_64.c -o build/x86_64/arch/arch_x86_64.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/audio/hda.c -o build/x86_64/audio/hda.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/audio/menu_sound.c -o build/x86_64/audio/menu_sound.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/audio/rbd.c -o build/x86_64/audio/rbd.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/boot/linux_boot.c -o build/x86_64/boot/linux_boot.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/boot/linux_file.c -o build/x86_64/boot/linux_file.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/boot/linux_initrd.c -o build/x86_64/boot/linux_initrd.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/boot/linux_rawboot.c -o build/x86_64/boot/linux_rawboot.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/boot/loader_iface.c -o build/x86_64/boot/loader_iface.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/boot/windows_boot.c -o build/x86_64/boot/windows_boot.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/browse/filebrowse.c -o build/x86_64/browse/filebrowse.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/browse/text_browse.c -o build/x86_64/browse/text_browse.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/capture/capture.c -o build/x86_64/capture/capture.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/capture/capture_file.c -o build/x86_64/capture/capture_file.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/capture/capture_gif.c -o build/x86_64/capture/capture_gif.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/capture/capture_png.c -o build/x86_64/capture/capture_png.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config.c -o build/x86_64/config/config.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_bls.c -o build/x86_64/config/config_bls.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_cmdline.c -o build/x86_64/config/config_cmdline.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_discover.c -o build/x86_64/config/config_discover.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_entry.c -o build/x86_64/config/config_entry.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_hotplug.c -o build/x86_64/config/config_hotplug.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_keys.c -o build/x86_64/config/config_keys.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_luks.c -o build/x86_64/config/config_luks.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_recovery.c -o build/x86_64/config/config_recovery.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_snapshots.c -o build/x86_64/config/config_snapshots.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/config/config_util.c -o build/x86_64/config/config_util.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_file.c -o build/x86_64/core/efi_file.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_fsdrv.c -o build/x86_64/core/efi_fsdrv.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_helpers.c -o build/x86_64/core/efi_helpers.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_log.c -o build/x86_64/core/efi_log.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_path.c -o build/x86_64/core/efi_path.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_selfheal.c -o build/x86_64/core/efi_selfheal.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/efi_var.c -o build/x86_64/core/efi_var.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/gpt_disk.c -o build/x86_64/core/gpt_disk.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/core/main.c -o build/x86_64/core/main.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/decoders/anim.c -o build/x86_64/decoders/anim.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/decoders/gif_decoder.c -o build/x86_64/decoders/gif_decoder.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/decoders/mjpeg_decoder.c -o build/x86_64/decoders/mjpeg_decoder.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/decoders/mp4_decoder.c -o build/x86_64/decoders/mp4_decoder.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/decoders/png_decoder.c -o build/x86_64/decoders/png_decoder.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/decoders/vbg_decoder.c -o build/x86_64/decoders/vbg_decoder.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gpt/gpt.c -o build/x86_64/gpt/gpt.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gpt/gpt_diagnose.c -o build/x86_64/gpt/gpt_diagnose.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gpt/gpt_repair.c -o build/x86_64/gpt/gpt_repair.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gpt/gpt_text.c -o build/x86_64/gpt/gpt_text.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gpt/text_gptcmd.c -o build/x86_64/gpt/text_gptcmd.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/accent.c -o build/x86_64/gui/accent.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/font_jetbrains.c -o build/x86_64/gui/font_jetbrains.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui.c -o build/x86_64/gui/gui.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_accent.c -o build/x86_64/gui/gui_accent.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_background.c -o build/x86_64/gui/gui_background.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_blur.c -o build/x86_64/gui/gui_blur.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_browse.c -o build/x86_64/gui/gui_browse.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_capture.c -o build/x86_64/gui/gui_capture.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_card.c -o build/x86_64/gui/gui_card.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_clock.c -o build/x86_64/gui/gui_clock.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_draw.c -o build/x86_64/gui/gui_draw.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_editor.c -o build/x86_64/gui/gui_editor.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_fade.c -o build/x86_64/gui/gui_fade.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_gptwarn.c -o build/x86_64/gui/gui_gptwarn.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_image.c -o build/x86_64/gui/gui_image.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_intro.c -o build/x86_64/gui/gui_intro.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_menu.c -o build/x86_64/gui/gui_menu.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_panels.c -o build/x86_64/gui/gui_panels.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_pointer.c -o build/x86_64/gui/gui_pointer.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_rbd.c -o build/x86_64/gui/gui_rbd.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_run.c -o build/x86_64/gui/gui_run.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_screensaver.c -o build/x86_64/gui/gui_screensaver.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_text.c -o build/x86_64/gui/gui_text.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/security/crypto.c -o build/x86_64/security/crypto.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/security/hash_verify.c -o build/x86_64/security/hash_verify.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/security/luks_keyfile.c -o build/x86_64/security/luks_keyfile.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/security/sha256.c -o build/x86_64/security/sha256.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/security/tcg2.c -o build/x86_64/security/tcg2.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/text/text_menu.c -o build/x86_64/text/text_menu.o
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/text/text_recovery.c -o build/x86_64/text/text_recovery.o
+gen: build/x86_64/gen/visor_manifest.c
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c build/x86_64/gen/visor_manifest.c -o build/x86_64/visor_manifest.o
+/usr/bin/x86_64-linux-gnu-gcc -nostdlib -znocombreloc -z notext -T src/visor_x86_64.lds -shared -Bsymbolic -Wl,--version-script=src/efi.vers -L /home/user/Projects/visor-review/build-deps/gnu-efi/usr/lib/ /home/user/Projects/visor-review/build-deps/gnu-efi/usr/lib/crt0-efi-x86_64.o -lefi -lgnuefi -o build/x86_64/visor.so build/x86_64/arch/arch_x86_64.o build/x86_64/audio/hda.o build/x86_64/audio/menu_sound.o build/x86_64/audio/rbd.o build/x86_64/boot/linux_boot.o build/x86_64/boot/linux_file.o build/x86_64/boot/linux_initrd.o build/x86_64/boot/linux_rawboot.o build/x86_64/boot/loader_iface.o build/x86_64/boot/windows_boot.o build/x86_64/browse/filebrowse.o build/x86_64/browse/text_browse.o build/x86_64/capture/capture.o build/x86_64/capture/capture_file.o build/x86_64/capture/capture_gif.o build/x86_64/capture/capture_png.o build/x86_64/config/config.o build/x86_64/config/config_bls.o build/x86_64/config/config_cmdline.o build/x86_64/config/config_discover.o build/x86_64/config/config_entry.o build/x86_64/config/config_hotplug.o build/x86_64/config/config_keys.o build/x86_64/config/config_luks.o build/x86_64/config/config_recovery.o build/x86_64/config/config_snapshots.o build/x86_64/config/config_util.o build/x86_64/core/efi_file.o build/x86_64/core/efi_fsdrv.o build/x86_64/core/efi_helpers.o build/x86_64/core/efi_log.o build/x86_64/core/efi_path.o build/x86_64/core/efi_selfheal.o build/x86_64/core/efi_var.o build/x86_64/core/gpt_disk.o build/x86_64/core/main.o build/x86_64/decoders/anim.o build/x86_64/decoders/gif_decoder.o build/x86_64/decoders/mjpeg_decoder.o build/x86_64/decoders/mp4_decoder.o build/x86_64/decoders/png_decoder.o build/x86_64/decoders/vbg_decoder.o build/x86_64/gpt/gpt.o build/x86_64/gpt/gpt_diagnose.o build/x86_64/gpt/gpt_repair.o build/x86_64/gpt/gpt_text.o build/x86_64/gpt/text_gptcmd.o build/x86_64/gui/accent.o build/x86_64/gui/font_jetbrains.o build/x86_64/gui/gui.o build/x86_64/gui/gui_accent.o build/x86_64/gui/gui_background.o build/x86_64/gui/gui_blur.o build/x86_64/gui/gui_browse.o build/x86_64/gui/gui_capture.o build/x86_64/gui/gui_card.o build/x86_64/gui/gui_clock.o build/x86_64/gui/gui_draw.o build/x86_64/gui/gui_editor.o build/x86_64/gui/gui_fade.o build/x86_64/gui/gui_gptwarn.o build/x86_64/gui/gui_image.o build/x86_64/gui/gui_intro.o build/x86_64/gui/gui_menu.o build/x86_64/gui/gui_panels.o build/x86_64/gui/gui_pointer.o build/x86_64/gui/gui_rbd.o build/x86_64/gui/gui_run.o build/x86_64/gui/gui_screensaver.o build/x86_64/gui/gui_text.o build/x86_64/security/crypto.o build/x86_64/security/hash_verify.o build/x86_64/security/luks_keyfile.o build/x86_64/security/sha256.o build/x86_64/security/tcg2.o build/x86_64/text/text_menu.o build/x86_64/text/text_recovery.o build/x86_64/visor_manifest.o
+objcopy -j .text -j .sdata -j .data -j .rodata -j .dynamic \
+	   -j .dynsym  -j .dynstr -j .rel* -j .rela* -j .reloc \
+	   -O pei-x86-64 --subsystem=10 build/x86_64/visor.so visor_x64.efi
+objcopy --update-section .reloc=build/x86_64/reloc.bin visor_x64.efi
+reloc: PageRVA 0x00001000 OK
+profile full [x86_64]: 28 features on, 0 off
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi \
+      -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c src/gui/gui_intro.c -o build/x86_64/gui/gui_intro.o
+gen: build/x86_64/gen/visor_manifest.c
+/usr/bin/x86_64-linux-gnu-gcc -ffreestanding -fno-stack-protector -fno-strict-aliasing -fno-asynchronous-unwind-tables -fno-unwind-tables -fcf-protection=none -fno-PIE -fpic -fshort-wchar -fvisibility=hidden -mno-red-zone -DGNU_EFI_USE_MS_ABI -DVISOR_VERSION='L"1.5.6"' -Wall -Wextra -O2 -I src/include -MMD -MP -I build/x86_64/gen -include visor_features.h -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi -I /home/user/Projects/visor-review/build-deps/gnu-efi/usr/include/efi/x86_64 \
+      -c build/x86_64/gen/visor_manifest.c -o build/x86_64/visor_manifest.o
+/usr/bin/x86_64-linux-gnu-gcc -nostdlib -znocombreloc -z notext -T src/visor_x86_64.lds -shared -Bsymbolic -Wl,--version-script=src/efi.vers -L /home/user/Projects/visor-review/build-deps/gnu-efi/usr/lib/ /home/user/Projects/visor-review/build-deps/gnu-efi/usr/lib/crt0-efi-x86_64.o -lefi -lgnuefi -o build/x86_64/visor.so build/x86_64/arch/arch_x86_64.o build/x86_64/audio/hda.o build/x86_64/audio/menu_sound.o build/x86_64/audio/rbd.o build/x86_64/boot/linux_boot.o build/x86_64/boot/linux_file.o build/x86_64/boot/linux_initrd.o build/x86_64/boot/linux_rawboot.o build/x86_64/boot/loader_iface.o build/x86_64/boot/windows_boot.o build/x86_64/browse/filebrowse.o build/x86_64/browse/text_browse.o build/x86_64/capture/capture.o build/x86_64/capture/capture_file.o build/x86_64/capture/capture_gif.o build/x86_64/capture/capture_png.o build/x86_64/config/config.o build/x86_64/config/config_bls.o build/x86_64/config/config_cmdline.o build/x86_64/config/config_discover.o build/x86_64/config/config_entry.o build/x86_64/config/config_hotplug.o build/x86_64/config/config_keys.o build/x86_64/config/config_luks.o build/x86_64/config/config_recovery.o build/x86_64/config/config_snapshots.o build/x86_64/config/config_util.o build/x86_64/core/efi_file.o build/x86_64/core/efi_fsdrv.o build/x86_64/core/efi_helpers.o build/x86_64/core/efi_log.o build/x86_64/core/efi_path.o build/x86_64/core/efi_selfheal.o build/x86_64/core/efi_var.o build/x86_64/core/gpt_disk.o build/x86_64/core/main.o build/x86_64/decoders/anim.o build/x86_64/decoders/gif_decoder.o build/x86_64/decoders/mjpeg_decoder.o build/x86_64/decoders/mp4_decoder.o build/x86_64/decoders/png_decoder.o build/x86_64/decoders/vbg_decoder.o build/x86_64/gpt/gpt.o build/x86_64/gpt/gpt_diagnose.o build/x86_64/gpt/gpt_repair.o build/x86_64/gpt/gpt_text.o build/x86_64/gpt/text_gptcmd.o build/x86_64/gui/accent.o build/x86_64/gui/font_jetbrains.o build/x86_64/gui/gui.o build/x86_64/gui/gui_accent.o build/x86_64/gui/gui_background.o build/x86_64/gui/gui_blur.o build/x86_64/gui/gui_browse.o build/x86_64/gui/gui_capture.o build/x86_64/gui/gui_card.o build/x86_64/gui/gui_clock.o build/x86_64/gui/gui_draw.o build/x86_64/gui/gui_editor.o build/x86_64/gui/gui_fade.o build/x86_64/gui/gui_gptwarn.o build/x86_64/gui/gui_image.o build/x86_64/gui/gui_intro.o build/x86_64/gui/gui_menu.o build/x86_64/gui/gui_panels.o build/x86_64/gui/gui_pointer.o build/x86_64/gui/gui_rbd.o build/x86_64/gui/gui_run.o build/x86_64/gui/gui_screensaver.o build/x86_64/gui/gui_text.o build/x86_64/security/crypto.o build/x86_64/security/hash_verify.o build/x86_64/security/luks_keyfile.o build/x86_64/security/sha256.o build/x86_64/security/tcg2.o build/x86_64/text/text_menu.o build/x86_64/text/text_recovery.o build/x86_64/visor_manifest.o
+objcopy -j .text -j .sdata -j .data -j .rodata -j .dynamic \
+	   -j .dynsym  -j .dynstr -j .rel* -j .rela* -j .reloc \
+	   -O pei-x86-64 --subsystem=10 build/x86_64/visor.so visor_x64.efi
+objcopy --update-section .reloc=build/x86_64/reloc.bin visor_x64.efi
+reloc: PageRVA 0x00001000 OK

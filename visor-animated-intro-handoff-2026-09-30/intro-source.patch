@@ -1,0 +1,601 @@
+diff --git a/boot.conf.example b/boot.conf.example
+index ee6c0f1..555521f 100644
+--- a/boot.conf.example
++++ b/boot.conf.example
+@@ -378,6 +378,20 @@ quiet=0
+ # is taken from the first frame.
+ background=\EFI\visor\backgrounds\default.png
+ 
++# Optional intro: PNG/BMP/GIF/MJPEG MP4/MOV/M4V/VBG. No H.264/H.265 or audio.
++# Duration in milliseconds, 0 disables, capped at 5000; excludes decode time.
++# Any key skips and cancels the menu countdown. animation=0 disables the fade.
++# intro_image=\EFI\visor\backgrounds\rem-intro.png
++# intro_duration=2000
++# intro_media=\EFI\visor\backgrounds\kawaii.gif
++# intro_loop=1
++# intro_auto_continue=1
++# intro_action=menu
++# intro_action=boot boots the preselected default after completion; a key opens the menu.
++# Keep autoboot=0 and timeout nonzero to show the intro. timeout=-1 keeps the menu open.
++# intro_image is an alias for intro_media. With auto_continue=0, wait for a key.
++# Without looping, auto-continue occurs at end-of-clip or duration, whichever first.
++
+ # --- Dynamic accent (palette from wallpaper) --------------------------------
+ # Derive a Material You palette from the background image and apply it to the
+ # UI - the same pipeline the caelestia shell uses for the desktop: the
+diff --git a/docs/boot.conf.schema.json b/docs/boot.conf.schema.json
+index 35b98a6..f9fd3f5 100644
+--- a/docs/boot.conf.schema.json
++++ b/docs/boot.conf.schema.json
+@@ -442,6 +442,44 @@
+       "$ref": "#/$defs/bool",
+       "default": false
+     },
++    "intro_image": {
++      "x-feature": "gui",
++      "type": "string",
++      "x-group": "background",
++      "x-aliases": ["intro_media"],
++      "description": "Intro media path: PNG/BMP/GIF/MJPEG MP4/MOV/M4V/VBG. Alias intro_media. Requires matching decoder features. Missing/unsupported media skips safely. Any key skips and cancels the menu countdown."
++    },
++    "intro_duration": {
++      "x-feature": "gui",
++      "type": "integer",
++      "minimum": 0,
++      "maximum": 5000,
++      "default": 2000,
++      "x-group": "background",
++      "description": "Automatic intro display deadline in milliseconds, excluding loading. Zero disables the intro even in manual mode. Values above 5000 are clamped. animation=0 suppresses fade and playback."
++    },
++    "intro_loop": {
++      "x-feature": "gui",
++      "x-group": "background",
++      "$ref": "#/$defs/bool",
++      "default": false,
++      "description": "Repeat the intro clip regardless of its embedded loop count. Auto mode still respects intro_duration; manual mode loops until a key."
++    },
++    "intro_auto_continue": {
++      "x-feature": "gui",
++      "x-group": "background",
++      "$ref": "#/$defs/bool",
++      "default": true,
++      "description": "Perform intro_action at the deadline or end of a non-looping clip. When false, wait for a key (hold the final frame if not looping). A key always opens the menu."
++    },
++    "intro_action": {
++      "x-feature": "gui",
++      "x-group": "background",
++      "type": "string",
++      "enum": ["menu", "boot"],
++      "default": "menu",
++      "description": "After successful automatic completion, show the menu or boot the existing preselected entry. A key, decode failure or missing media never triggers this direct boot action. Existing autoboot=1 or timeout=0 bypass the intro."
++    },
+     "background": {
+       "x-feature": "gui",
+       "x-group": "background",
+diff --git a/features/features.json b/features/features.json
+index 9d4faaf..9146c26 100644
+--- a/features/features.json
++++ b/features/features.json
+@@ -57,6 +57,11 @@
+         "reboot_icon",
+         "firmware_icon",
+         "background",
++        "intro_image",
++        "intro_duration",
++        "intro_loop",
++        "intro_auto_continue",
++        "intro_action",
+         "bg_color",
+         "highlight_color",
+         "underline_color",
+diff --git a/features/features.mk b/features/features.mk
+index d5f988f..364162e 100644
+--- a/features/features.mk
++++ b/features/features.mk
+@@ -34,7 +34,7 @@ FEAT_ALL := gui fade screensaver blur clock pointer editor accent \
+ 
+ FEAT_gui_SRC          := gui/gui.c gui/gui_draw.c gui/gui_text.c \
+                          gui/gui_card.c gui/gui_menu.c gui/gui_panels.c \
+-                         gui/gui_image.c gui/gui_background.c gui/gui_run.c \
++                         gui/gui_image.c gui/gui_background.c gui/gui_intro.c gui/gui_run.c \
+                          gui/font_jetbrains.c decoders/png_decoder.c
+ FEAT_gui_DEPS         :=
+ FEAT_gui_STUB         := stub_gui.c
+diff --git a/src/config/config.c b/src/config/config.c
+index 6f68e72..547c347 100644
+--- a/src/config/config.c
++++ b/src/config/config.c
+@@ -108,6 +108,11 @@ EFI_STATUS config_parse(config_t *config) {
+     config->sp_all.mode = SPEC_UNSET;
+     config->font = NULL;
+     config->background = NULL;
++    config->intro_image = NULL;
++    config->intro_duration = 2000;
++    config->intro_loop = 0;
++    config->intro_auto_continue = 1;
++    config->intro_boot_default = 0;
+     config->bg_color = (color_t){0x1a, 0x1a, 0x2e};
+     config->fg_color = COLOR_WHITE;
+     config->highlight_color = COLOR_BLUE;
+diff --git a/src/config/config_entry.c b/src/config/config_entry.c
+index 0580513..8df5ac2 100644
+--- a/src/config/config_entry.c
++++ b/src/config/config_entry.c
+@@ -332,6 +332,7 @@ void config_free(config_t *config) {
+     config->entry_count = 0;
+ 
+     if (config->background)    efi_free_pool(config->background);
++    if (config->intro_image)   efi_free_pool(config->intro_image);
+     if (config->theme)         efi_free_pool(config->theme);
+     if (config->title)         efi_free_pool(config->title);
+     if (config->logo)          efi_free_pool(config->logo);
+@@ -342,6 +343,7 @@ void config_free(config_t *config) {
+     if (config->firmware_icon) efi_free_pool(config->firmware_icon);
+     if (config->menu_sound)    efi_free_pool(config->menu_sound);
+     config->background = NULL;
++    config->intro_image = NULL;
+     config->theme = NULL;
+     config->title = NULL;
+     config->logo = NULL;
+diff --git a/src/config/config_keys.c b/src/config/config_keys.c
+index 3a4c938..bf93d5e 100644
+--- a/src/config/config_keys.c
++++ b/src/config/config_keys.c
+@@ -289,6 +289,21 @@ void apply_global(config_t *config, CHAR16 *key, CHAR16 *value) {
+     } else if (efi_strcmp(key, L"background") == 0) {
+         if (config->background) efi_free_pool(config->background);
+         config->background = dup_path(value);
++    } else if (efi_strcmp(key, L"intro_image") == 0 ||
++               efi_strcmp(key, L"intro_media") == 0) {
++        if (config->intro_image) efi_free_pool(config->intro_image);
++        config->intro_image = dup_path(value);
++    } else if (efi_strcmp(key, L"intro_duration") == 0) {
++        UINTN duration = parse_uint(value);
++        config->intro_duration = duration > 5000 ? 5000 : duration;
++    } else if (efi_strcmp(key, L"intro_loop") == 0) {
++        config->intro_loop = (*value == '1' || *value == 't' || *value == 'y');
++    } else if (efi_strcmp(key, L"intro_auto_continue") == 0) {
++        config->intro_auto_continue = (*value == '1' || *value == 't' || *value == 'y');
++    } else if (efi_strcmp(key, L"intro_action") == 0) {
++        if (efi_strcmp(value, L"menu") == 0) config->intro_boot_default = 0;
++        else if (efi_strcmp(value, L"boot") == 0) config->intro_boot_default = 1;
++        else efi_log(L"WARN: invalid intro_action (menu/boot)");
+     } else if (efi_strcmp(key, L"power_icons") == 0) {
+         config->power_icons = (*value == '1' || *value == 't' || *value == 'y');
+     } else if (efi_strcmp(key, L"power_icon_size") == 0) {
+diff --git a/src/core/main.c b/src/core/main.c
+index 3ec35d9..eccec8a 100644
+--- a/src/core/main.c
++++ b/src/core/main.c
+@@ -367,6 +367,8 @@ EFI_STATUS efi_main(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE *system_table) {
+     int action = VISOR_ACTION_BOOT;
+     int autobooted = 0;
+     int gui_closed = 0;
++    int intro_shown = 0;
++    int intro_boot = 0;
+     int force_menu = 0;
+     int retry_selected = 0;
+     boot_entry_t *bls_decremented = NULL;
+@@ -390,8 +392,22 @@ select_entry:
+     selected = NULL;
+     action = VISOR_ACTION_BOOT;
+     autobooted = 0;
++    intro_boot = 0;
++
++    if (!intro_shown && !retry_selected && !text_mode && !gui_closed &&
++        !config.autoboot && gui.timeout != 0) {
++        intro_shown = 1;
++        int intro_result = gui_show_intro(&gui, config.intro_image, config.intro_duration,
++                                         config.intro_loop, config.intro_auto_continue);
++        if (intro_result == INTRO_SKIPPED) {
++            gui.timeout_active = 0;
++            force_menu = 1;
++        } else if (intro_result == INTRO_FINISHED && config.intro_boot_default) {
++            intro_boot = 1;
++        }
++    }
+ 
+-    if (!force_menu && config.autoboot && gui.entry_count >= 1) {
++    if (!force_menu && (config.autoboot || intro_boot) && gui.entry_count >= 1) {
+         EFI_INPUT_KEY abk;
+         if (EFI_ERROR(ST->ConIn->ReadKeyStroke(ST->ConIn, &abk))) {
+             UINTN pick = (gui.entry_count == 1) ? 0
+diff --git a/src/include/config.h b/src/include/config.h
+index ffaf008..cdb0501 100644
+--- a/src/include/config.h
++++ b/src/include/config.h
+@@ -54,6 +54,11 @@ typedef struct {
+     accent_spec_t sp_g_text, sp_g_icons, sp_g_underline, sp_all;
+     CHAR16 *font;
+     CHAR16 *background;
++    CHAR16 *intro_image;
++    UINTN intro_duration;
++    int intro_loop;
++    int intro_auto_continue;
++    int intro_boot_default;
+     color_t bg_color;
+     color_t fg_color;
+     color_t highlight_color;
+diff --git a/src/include/gui.h b/src/include/gui.h
+index 3d071b1..03d41f1 100644
+--- a/src/include/gui.h
++++ b/src/include/gui.h
+@@ -427,6 +427,11 @@ EFI_STATUS gui_prompt_password(gui_state_t *state, CHAR16 *title, CHAR16 *hint,
+ void gui_shutdown(gui_state_t *state);
+ 
+ void gui_set_background(gui_state_t *state, CHAR16 *path);
++#define INTRO_BYPASSED 0
++#define INTRO_FINISHED 1
++#define INTRO_SKIPPED 2
++int gui_show_intro(gui_state_t *state, CHAR16 *path, UINTN duration_ms,
++                   int loop, int auto_continue);
+ 
+ void gui_set_logo(gui_state_t *state, CHAR16 *path);
+ 
+diff --git a/src/stubs/stub_gui.c b/src/stubs/stub_gui.c
+index a26f894..8996951 100644
+--- a/src/stubs/stub_gui.c
++++ b/src/stubs/stub_gui.c
+@@ -27,6 +27,13 @@ void gui_set_background(gui_state_t *state, CHAR16 *path) {
+     (void)state; (void)path;
+ }
+ 
++int gui_show_intro(gui_state_t *state, CHAR16 *path, UINTN duration_ms,
++                   int loop, int auto_continue) {
++    (void)state; (void)path; (void)duration_ms;
++    (void)loop; (void)auto_continue;
++    return 0;
++}
++
+ void gui_set_font(const char *name) {
+     (void)name;
+ }
+diff --git a/docs/intro.md b/docs/intro.md
+new file mode 100644
+index 0000000..cd2f2a9
+--- /dev/null
++++ b/docs/intro.md
+@@ -0,0 +1,96 @@
++# Animated intro (local contribution)
++
++Optional skippable intro before Visor's menu or default-entry boot. Disabled
++unless a media path is set. No firmware or encryption changes are involved.
++
++## Configuration
++
++```ini
++autoboot=0
++timeout=-1
++default=0
++remember_last=0
++intro_media=\EFI\visor\backgrounds\kawaii.gif
++intro_duration=5000
++intro_loop=1
++intro_auto_continue=1
++intro_action=menu
++animation=1
++```
++
++- `intro_media`: PNG/BMP/GIF/MJPEG MP4/MOV/M4V/VBG. `intro_image` is an alias.
++- `intro_duration`: automatic deadline in milliseconds, default 2000, capped at
++  5000, excluding synchronous loading/decoding. Zero disables all intro modes.
++- `intro_loop=0`: play once, then automatically continue after the final frame's
++  delay or deadline, whichever comes first. In manual mode, hold the final frame.
++- `intro_loop=1`: repeat regardless of embedded GIF loop counts; automatic mode
++  still ends at the deadline.
++- `intro_auto_continue=1`: perform `intro_action` automatically.
++- `intro_auto_continue=0`: wait for a key, repeating or holding the final frame.
++  The duration is not a deadline in this explicit manual mode.
++- `intro_action=menu`: open the existing chooser. Its normal timeout still
++  applies; use `timeout=-1` to wait indefinitely at the menu.
++- `intro_action=boot`: boot the existing preselected entry after successful
++  automatic completion.
++- `animation=0`: no fade or motion; show the first frame until deadline or key.
++
++**Any key opens the menu and cancels its countdown**, even with action=boot.
++Missing/unsupported media, decode failure and timer failure skip to the normal
++menu, not the intro's direct-boot action. The normal menu timeout still applies.
++Existing `autoboot=1` or `timeout=0` bypasses the intro entirely, as does text
++mode. There is no mouse skip or audio. Failed boots do not replay the intro.
++
++## Entry ordering and default
++
++Visor already has a boot-entry chooser. Explicit `entry { ... }` blocks appear
++in configuration order. Put the preferred OS first with `default=0`, or select
++the second with `default=1`. Indices are zero-based. `remember_last=1` overrides
++this default; existing systemd loader variables may override selection too.
++Inspect discovered entries before choosing an index. Use explicit entries and
++the existing discovery controls for deterministic ordering. The existing
++`boot_order` self-heal setting controls firmware NVRAM, NOT menu ordering.
++
++## Media and profiles
++
++Reuses Visor's existing decoders; no GRUB code or multimedia framework is added.
++Full/ricer include GIF/MP4; other profiles need `anim_gif` / `anim_mp4`.
++Unavailable decoders safely bypass the intro. Fades honor the `fade` feature.
++Media is aspect-fitted against black, never stretched or cropped.
++
++**MP4 means MJPEG, not arbitrary H.264/H.265/AV1.** Convert outside firmware:
++
++```sh
++ffmpeg -threads 1 -i input.mp4 -an -vf 'scale=960:-2,fps=15' \
++  -c:v mjpeg -threads 1 -q:v 4 -pix_fmt yuvj420p -movflags +faststart intro.mp4
++```
++
++Keep clips small and trusted. Compressed data and working buffers reside in RAM;
++frames are decoded on demand, not all in advance. There is no new media-size
++hardening layer. Loading/decoding is synchronous and not interruptible mid-frame.
++Slow decoding may stretch playback; there is no audio synchronization.
++
++## Personal example and rights
++
++`assets/kawaii-intro/kawaii.gif` is the user's unchanged 500x289, nine-frame,
++approximately 1.17-second GIF. `kawaii-mjpeg.mp4` is a single-worker conversion
++for decoder tests. The theme fragment chooses a five-second looping GIF followed
++by the menu. Merge it with a reviewed config, not as a replacement boot.conf.
++
++This supplied pink-haired character replaces the earlier Rem choice. Its original
++publisher and redistribution rights are unverified. These are personal test
++assets, not BSD-licensed character artwork; replace with rights-cleared media
++before a public release. The source-only patch excludes artwork. The older
++`assets/rem-intro/` is retained as an optional AI-generated still-image example.
++
++## Validation and deployment
++
++`intro_duration=0` disables the feature; check theme overrides. No installer ran.
++The review bundle contains complete working source, source-only patch, examples,
++binaries, build logs and VM screenshots. Keep installed systemd-boot, LTS and
++Plymouth unchanged until separately reviewed deployment.
++
++`tools/preview_intro.py` uses QEMU/KVM, 256 MiB RAM, one CPU, no networking and a
++synthetic ESP with a disposable write overlay. No host OS disks are attached.
++Its missing-file entries deliberately test selection/boot attempt, not a real
++OS boot. Capturing screenshots is not an automated behavioral assertion; inspect
++them. See the bundle's validation report for actual observed results.
+diff --git a/src/gui/gui_intro.c b/src/gui/gui_intro.c
+new file mode 100644
+index 0000000..1a4911d
+--- /dev/null
++++ b/src/gui/gui_intro.c
+@@ -0,0 +1,129 @@
++#include "gui_internal.h"
++
++static void intro_paint(gui_state_t *state, icon_t *image, UINTN alpha) {
++    UINTN width = state->screen_width;
++    UINTN height = state->screen_height;
++    UINTN draw_width = width;
++    UINTN draw_height = (UINT64)image->height * width / image->width;
++    if (draw_height > height) {
++        draw_height = height;
++        draw_width = (UINT64)image->width * height / image->height;
++    }
++    if (!draw_width || !draw_height) return;
++    UINTN left = (width - draw_width) / 2;
++    UINTN top = (height - draw_height) / 2;
++    for (UINTN pixel = 0; pixel < width * height; pixel++)
++        state->backbuffer[pixel] = 0xFF000000u;
++    for (UINTN row = 0; row < draw_height; row++) {
++        UINTN source_row = (UINT64)row * image->height / draw_height;
++        for (UINTN column = 0; column < draw_width; column++) {
++            UINTN source_column = (UINT64)column * image->width / draw_width;
++            UINT32 color = image->pixels[source_row * image->width + source_column];
++            UINTN opacity = ((color >> 24) * alpha) / 255;
++            UINT32 red = ((color >> 16) & 255) * opacity / 255;
++            UINT32 green = ((color >> 8) & 255) * opacity / 255;
++            UINT32 blue = (color & 255) * opacity / 255;
++            state->backbuffer[(top + row) * width + left + column] =
++                0xFF000000u | (red << 16) | (green << 8) | blue;
++        }
++    }
++    UINTN title_size = clamp_uintn(height / 16, 20, 72);
++    UINTN hint_size = clamp_uintn(height / 48, 12, 24);
++    UINTN padding = hint_size / 2;
++    UINTN title_y = height / 12;
++    UINTN hint_y = height * 9 / 10;
++    fill_rect_alpha(state, width / 12 - padding, title_y - padding,
++                    text_width_px(L"VISOR", title_size) + padding * 2,
++                    title_size + padding * 2, COLOR_BLACK, alpha * 220 / 255);
++    fill_rect_alpha(state, width / 12 - padding, hint_y - padding,
++                    text_width_px(L"Press any key to continue", hint_size) + padding * 2,
++                    hint_size + padding * 2, COLOR_BLACK, alpha * 220 / 255);
++    draw_text_px(state, L"VISOR", width / 12, title_y,
++                 (color_t){alpha, alpha, alpha}, title_size);
++    draw_text_px(state, L"Press any key to continue", width / 12, hint_y,
++                 (color_t){alpha * 150 / 255, alpha * 190 / 255, alpha * 220 / 255},
++                 hint_size);
++    gui_present(state);
++}
++
++int gui_show_intro(gui_state_t *state, CHAR16 *path, UINTN duration_ms,
++                   int loop, int auto_continue) {
++    if (!state || !state->backbuffer || !state->screen_width ||
++        !state->screen_height || !path || !path[0] || !duration_ms)
++        return 0;
++    if (duration_ms > 5000) duration_ms = 5000;
++    anim_t *animation = NULL;
++    icon_t canvas = {0};
++    icon_t *image = NULL;
++    if (path_anim_kind(path)) {
++        animation = gui_load_anim(path, NULL, state->screen_width, state->screen_height);
++        if (!animation) return 0;
++        animation->loops = 0;
++        canvas.width = animation->width;
++        canvas.height = animation->height;
++        canvas.pixels = animation->canvas;
++        image = &canvas;
++    } else {
++        image = gui_load_image(path);
++        if (!image) return 0;
++    }
++    int result = INTRO_BYPASSED;
++    EFI_EVENT deadline = NULL;
++    if (!image->pixels || !image->width || !image->height) goto cleanup;
++    if (auto_continue) {
++        if (EFI_ERROR(BS->CreateEvent(EVT_TIMER, TPL_CALLBACK, NULL, NULL, &deadline)))
++            goto cleanup;
++        if (EFI_ERROR(BS->SetTimer(deadline, TimerRelative, (UINT64)duration_ms * 10000)))
++            goto cleanup;
++    }
++    arch_clock_init();
++    UINT64 start = arch_now_us();
++    UINTN last_alpha = 256;
++    UINT64 next_frame_us = animation ? (UINT64)(animation->cur_delay ? animation->cur_delay : 10) * 1000 : 0;
++    int playing = animation && state->animation;
++    for (;;) {
++        EFI_INPUT_KEY key;
++        if (!EFI_ERROR(ST->ConIn->ReadKeyStroke(ST->ConIn, &key))) {
++            result = INTRO_SKIPPED;
++            break;
++        }
++        if (deadline) {
++            EFI_STATUS status = BS->CheckEvent(deadline);
++            if (status == EFI_SUCCESS) { result = INTRO_FINISHED; break; }
++            if (status != EFI_NOT_READY) break;
++        }
++        UINT64 elapsed = arch_now_us() - start;
++        int frame_changed = 0;
++        if (playing && elapsed >= next_frame_us) {
++            if (!loop && animation->cur >= animation->frame_count - 1) {
++                playing = 0;
++                if (auto_continue) { result = INTRO_FINISHED; break; }
++            } else if (!anim_advance_n(animation, 1)) {
++                break;
++            } else {
++                canvas.pixels = animation->canvas;
++                frame_changed = 1;
++                next_frame_us = elapsed + (UINT64)(animation->cur_delay ? animation->cur_delay : 10) * 1000;
++            }
++        }
++        UINTN fade_us = duration_ms < 500 ? duration_ms * 500 : 250000;
++        UINTN alpha = (!gui_animation_on(state) || elapsed >= fade_us) ? 255
++                    : (UINTN)(elapsed * 255 / fade_us);
++        if (alpha != last_alpha || frame_changed) {
++            intro_paint(state, image, alpha);
++            last_alpha = alpha;
++        }
++        if (state->sound_poll) state->sound_poll();
++        BS->Stall(16000);
++    }
++cleanup:
++    if (deadline) BS->CloseEvent(deadline);
++    if (animation) {
++        anim_free(animation);
++    } else {
++        if (image->scaled) efi_free_pool(image->scaled);
++        if (image->pixels) efi_free_pool(image->pixels);
++        efi_free_pool(image);
++    }
++    return result;
++}
+diff --git a/tools/preview_intro.py b/tools/preview_intro.py
+new file mode 100644
+index 0000000..d106bd0
+--- /dev/null
++++ b/tools/preview_intro.py
+@@ -0,0 +1,106 @@
++import argparse
++import json
++from pathlib import Path
++import shutil
++import socket
++import subprocess
++import time
++from PIL import Image
++
++parser = argparse.ArgumentParser(description='Isolated intro smoke preview; never attaches host disks.')
++parser.add_argument('--output', type=Path, required=True)
++parser.add_argument('--firmware', type=Path, required=True)
++parser.add_argument('--case', choices=['gif-loop', 'gif-once', 'manual-loop', 'manual-once', 'skip', 'missing', 'disabled', 'still', 'mp4', 'boot', 'boot-skip', 'boot-missing'], required=True)
++args = parser.parse_args()
++repo = Path(__file__).resolve().parent.parent
++root = args.output.resolve() / args.case
++root.mkdir(parents=True, exist_ok=True)
++esp = root / 'esp'
++(esp / 'EFI/BOOT').mkdir(parents=True, exist_ok=True)
++(esp / 'EFI/visor/backgrounds').mkdir(parents=True, exist_ok=True)
++shutil.copy2(repo / 'visor_x64.efi', esp / 'EFI/BOOT/BOOTX64.EFI')
++for media in (repo / 'assets/kawaii-intro').glob('*'):
++    if media.suffix in ('.gif', '.mp4'):
++        shutil.copy2(media, esp / 'EFI/visor/backgrounds' / media.name)
++settings = {
++    'selfheal': '0', 'restore_fallback': '0', 'log': '0',
++    'scan_existing': '0', 'timeout': '30', 'resolution': '1280x720',
++    'intro_media': r'\EFI\visor\backgrounds\kawaii.gif',
++    'intro_duration': '5000', 'intro_loop': '1', 'intro_auto_continue': '1',
++    'intro_action': 'menu', 'animation': '1', 'default': '1', 'remember_last': '0',
++    'title': 'Intro smoke preview',
++}
++if args.case in ('gif-once', 'manual-once', 'boot'):
++    settings['intro_loop'] = '0'
++if args.case.startswith('manual'):
++    settings['intro_auto_continue'] = '0'
++if args.case in ('missing', 'boot-missing'):
++    settings['intro_media'] = r'\missing.gif'
++if args.case == 'disabled':
++    settings['intro_duration'] = '0'
++if args.case == 'still':
++    settings['animation'] = '0'
++if args.case == 'mp4':
++    settings['intro_media'] = r'\EFI\visor\backgrounds\kawaii-mjpeg.mp4'
++if args.case.startswith('boot'):
++    settings['intro_action'] = 'boot'
++config = '\n'.join(f'{key}={value}' for key, value in settings.items())
++config += '\nentry {\nname=FIRST test entry\nkernel=\\first-missing.efi\n}\n'
++config += '\nentry {\nname=SECOND default test entry\nkernel=\\second-missing.efi\n}\n'
++(esp / 'EFI/visor/boot.conf').write_text(config)
++qmp = root / 'qmp.sock'
++qmp.unlink(missing_ok=True)
++with (root / 'qemu.log').open('w') as error_log:
++    process = subprocess.Popen([
++        'qemu-system-x86_64', '-machine', 'q35', '-accel', 'kvm',
++        '-m', '256', '-smp', '1', '-display', 'none', '-nic', 'none',
++        '-drive', f'if=pflash,format=raw,readonly=on,file={args.firmware}',
++        '-drive', f'format=raw,snapshot=on,file=fat:ro:{esp}', '-no-reboot',
++        '-qmp', f'unix:{qmp},server=on,wait=off',
++    ], stdout=subprocess.DEVNULL, stderr=error_log)
++    try:
++        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
++            connection.settimeout(10)
++            for attempt in range(100):
++                if process.poll() is not None:
++                    raise RuntimeError('QEMU exited; inspect qemu.log')
++                try:
++                    connection.connect(str(qmp))
++                    break
++                except (FileNotFoundError, ConnectionRefusedError):
++                    time.sleep(.05)
++            else:
++                raise RuntimeError('QMP did not start')
++            with connection.makefile('rwb', buffering=0) as stream:
++                stream.readline()
++
++                def command(name, arguments=None):
++                    request = {'execute': name, 'arguments': arguments or {}}
++                    stream.write(json.dumps(request).encode() + b'\n')
++                    while True:
++                        response = json.loads(stream.readline())
++                        if 'error' in response:
++                            raise RuntimeError(response)
++                        if 'return' in response:
++                            return response['return']
++
++                command('qmp_capabilities')
++                key_sent = False
++                for frame in range(12):
++                    time.sleep(.5)
++                    command('screendump', {'filename': str(root / f'frame-{frame:02}.png'), 'format': 'png'})
++                    if args.case in ('skip', 'boot-skip') and not key_sent:
++                        with Image.open(root / f'frame-{frame:02}.png') as screenshot:
++                            red, green, blue = screenshot.convert('RGB').getpixel((screenshot.width // 2, screenshot.height // 2))
++                        if red > 100 and green > 50 and blue > 50:
++                            command('send-key', {'keys': [{'type': 'qcode', 'data': 'esc'}], 'hold-time': 50})
++                            key_sent = True
++                if args.case in ('skip', 'boot-skip') and not key_sent:
++                    raise RuntimeError('No visible intro found for keyboard skip test')
++                command('quit')
++    finally:
++        if process.poll() is None:
++            process.terminate()
++        process.wait(timeout=10)
++        qmp.unlink(missing_ok=True)
++print(f'{args.case}: captured 12 frames; inspect images for behavior (not automated pass assertions).')

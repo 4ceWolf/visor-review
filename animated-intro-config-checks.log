@@ -1,0 +1,14 @@
+28 features, 6 profiles, 18 core sources
+
+registry
+features.json
+config keys
+  111 of 147 global keys owned by a feature (36 always present)
+  19 of 32 entry keys owned by a feature (13 always present)
+boot.conf.example sections
+stubs
+visor subcommands
+
+registry is consistent
+parser: 123 global keys, 25 entry keys (aliases included)
+all keys documented in the schema and the example config
